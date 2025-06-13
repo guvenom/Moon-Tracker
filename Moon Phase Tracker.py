@@ -1,14 +1,22 @@
 import ephem
+import datetime
 
 
 user_input = input("Enter the name of celestial body : ")
-day = input("what day you wanna check format must be YYY/MM/DD: ")
+day = input("What day do you want to check? Format must be YYYY/MM/DD: ")
+
+try:
+    # Validate the date format before passing it to ephem
+    datetime.datetime.strptime(day, "%Y/%m/%d")
+except ValueError:
+    print("Invalid date format. Please use YYYY/MM/DD.")
+    exit(1)
 
 
 try:
-    celestial_body = getattr (ephem, user_input)()
-except:
-    print(f"{user_input} is not valid name of celestial body")
+    celestial_body = getattr(ephem, user_input)()
+except AttributeError:
+    print(f"{user_input} is not a valid name of a celestial body")
     exit(1)
 
 
